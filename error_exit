@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# An error handling script
+
+PROGNAME=$(basename $0)
+
+# Handle flags
+handle_flags()
+{
+while [ "$1" != "" ]; do
+  case $1 in
+    -h | --help )   usage;
+                    exit ;;
+    * )             echo "That is not a valid argument.
+                    Use -h or --help for usage."
+  esac
+  shift
+done
+}
+
+error_exit()
+{
+  if [ "$1" != "" ]; then
+    handle_flags $1
+  fi
+  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+  exit 1
+  # An error handling script
+}
+
+usage()
+{
+  echo "
+  ##############################################
+  An error handling script for shell executables.
+  ##############################################
+
+
+  Usage example:
+
+  > if [ error ]
+  >  echo error_exit <Debugging message>
+  > fi
+
+
+  * Adaptation of ©2000-2015, William E. Shotts, Jr
+  * via http://linuxcommand.org/lc3_wss0140.php" 
+}
+
+# MAIN
+error_exit $1 #"$LINENO $2"
+
+
+# Adaptation of ©2000-2015, William E. Shotts, Jr
+# via http://linuxcommand.org/lc3_wss0140.php
