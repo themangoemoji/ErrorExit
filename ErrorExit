@@ -2,9 +2,8 @@
 
 # An error handling script
 
-PROGNAME=$(basename $0)
-
 # Handle flags
+# Not used right now, TODO, add more flags
 handle_flags()
 {
 while [ "$1" != "" ]; do
@@ -21,11 +20,25 @@ done
 error_exit()
 {
   if [ "$1" != "" ]; then
-    handle_flags $1
+    # look for help flag, but only look in the first position
+    # this behavior might change.
+    case $1 in
+      -h | --help )   usage;
+        exit ;;
+      # Case wasn't help, print error
+      * )             printf "$1" 1>&2
+                      shift
+    esac
+    # Print all error message until end
+    while [ "$1" != "" ]; do
+      printf " ${1}" 1>&2
+      shift
+    done
+    echo ""
+    exit 1
+  else 
+    echo "Unknown Error" 1>&2
   fi
-  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
-  exit 1
-  # An error handling script
 }
 
 usage()
@@ -47,9 +60,12 @@ usage()
   * via http://linuxcommand.org/lc3_wss0140.php" 
 }
 
-# MAIN
-error_exit $1 "$PROGNAME: $LINENO $2"
 
+
+# MAIN
+echo ""
+printf "ERROR:: "
+error_exit $1
 
 # Adaptation of ©2000-2015, William E. Shotts, Jr
 # via http://linuxcommand.org/lc3_wss0140.php
