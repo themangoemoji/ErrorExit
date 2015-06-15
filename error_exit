@@ -48,7 +48,7 @@ usage()
 }
 
 # MAIN
-error_exit $1 #"$LINENO $2"
+error_exit $1 "$PROGNAME: $LINENO $2"
 
 
 # Adaptation of ©2000-2015, William E. Shotts, Jr
